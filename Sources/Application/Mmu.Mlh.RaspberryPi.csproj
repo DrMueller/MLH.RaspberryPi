@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <CodeAnalysisRuleSet>..\..\CA_ProductionCode.ruleset</CodeAnalysisRuleSet>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Company>DrMueller</Company>
+    <Product>MyLittleHelpers.RaspberryPi</Product>
+    <Authors>DrMueller</Authors>
+    <Description>DrMuellers little Raspberry PI helpers</Description>
+    <PackageProjectUrl></PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/DrMueller/MLH.RaspberryPi/master/Sources/Application/Infrastructure/Assets/M.png</PackageIconUrl>
+    <RepositoryUrl></RepositoryUrl>
+    <RepositoryType></RepositoryType>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <AssemblyVersion Condition="'$(BUILD_BUILDNUMBER)' != '' ">$(BUILD_BUILDNUMBER)</AssemblyVersion>
+    <FileVersion Condition="'$(BUILD_BUILDNUMBER)' != '' ">$(BUILD_BUILDNUMBER)</FileVersion>
+    <Version Condition="'$(BUILD_BUILDNUMBER)' != '' ">$(BUILD_BUILDNUMBER)</Version>
+    <AssemblyVersion Condition="'$(BUILD_BUILDNUMBER)' == '' ">1.0.0.0</AssemblyVersion>
+    <FileVersion Condition="'$(BUILD_BUILDNUMBER)' == '' ">1.0.0.0</FileVersion>
+    <Version Condition="'$(BUILD_BUILDNUMBER)' == '' ">1.0.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mmu.Mlh.LanguageExtensions" Version="2.1.23" />
+    <PackageReference Include="structuremap" Version="4.7.1" />
+    <PackageReference Include="System.Device.Gpio" Version="1.0.0-prerelease.19413.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\" />
+    <Folder Include="Infrastructure\Assets\" />
+  </ItemGroup>
+
+</Project>
