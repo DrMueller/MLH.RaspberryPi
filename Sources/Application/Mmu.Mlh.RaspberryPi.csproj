@@ -40,9 +40,6 @@
     <None Update="Areas\SenseHats\Models\LedMatrix.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Areas\SenseHats\Models\template.py">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

@@ -49,22 +49,19 @@ namespace Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Services.Implementatio
 
             foreach (var arg in request.Arguments)
             {
-                var val = arg.Value;
-                if (arg.Escape)
-                {
-                    val = string.Format("\"{0}\"", val);
-                }
-
-                sb.Append(val);
+                sb.Append(arg.AsString());
                 sb.Append(" ");
             }
 
-            return sb.ToString();
+            var result = sb.ToString();
+            return result;
         }
 
-        private string FindPythonExeFilePath()
+        private static string FindPythonExeFilePath()
         {
-            return @"C:\Users\mlm\AppData\Local\Programs\Python\Python37-32\python.exe";
+            // return @"C:\Users\mlm\AppData\Local\Programs\Python\Python37-32\python.exe";
+            // return @"C:\WINDOWS\py.exe";
+            return "/usr/bin/python";
         }
     }
 }

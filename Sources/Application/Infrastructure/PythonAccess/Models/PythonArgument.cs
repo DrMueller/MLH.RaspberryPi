@@ -1,14 +1,26 @@
 ﻿namespace Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Models
 {
-    public class PythonArgument
+    // All CLI Arguments are parsed via Strings anyway, so we have to overwrite some stuff
+    internal class PythonArgument
     {
-        public bool Escape { get; }
-        public string Value { get; }
+        private readonly bool _doEscape;
+        private readonly string _value;
 
-        public PythonArgument(string value, bool escape)
+        public PythonArgument(object value, bool doEscape = false)
         {
-            Value = value;
-            Escape = escape;
+            _value = value.ToString();
+            _doEscape = doEscape;
+        }
+
+        internal string AsString()
+        {
+            var val = _value.ToString();
+            if (_doEscape)
+            {
+                val = string.Format("\"{0}\"", val);
+            }
+
+            return val;
         }
     }
 }

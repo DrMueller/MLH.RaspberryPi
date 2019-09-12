@@ -2,7 +2,7 @@
 
 namespace Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Models
 {
-    public class PythonExecutionRequest
+    internal class PythonExecutionRequest
     {
         public PythonArgument[] Arguments { get; }
         public string FilePath { get; }
