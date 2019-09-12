@@ -22,14 +22,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mmu.Mlh.LanguageExtensions" Version="2.1.23" />
-    <PackageReference Include="structuremap" Version="4.7.1" />
-    <PackageReference Include="System.Device.Gpio" Version="1.0.0-prerelease.19413.1" />
+    <Compile Remove="Areas\SenseHats\Factories\**" />
+    <EmbeddedResource Remove="Areas\SenseHats\Factories\**" />
+    <None Remove="Areas\SenseHats\Factories\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\SenseHats\Factories\" />
+    <PackageReference Include="Mmu.Mlh.LanguageExtensions" Version="2.1.23" />
+    <PackageReference Include="structuremap" Version="4.7.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Infrastructure\Assets\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Areas\SenseHats\Models\LedMatrix.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Areas\SenseHats\Models\template.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

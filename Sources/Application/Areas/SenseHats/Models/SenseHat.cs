@@ -1,18 +1,15 @@
-﻿using System.Device.Gpio;
-using System.Device.I2c;
+﻿using Mmu.Mlh.LanguageExtensions.Areas.Invariance;
 
 namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models
 {
-    internal class SenseHat
+    public class SenseHat
     {
-        private const int DeviceAddress = 0x46;
+        public LedMatrix LedMatrix { get; }
 
-        public SenseHat()
+        public SenseHat(LedMatrix ledMatrix)
         {
-            var controller = new GpioController(PinNumberingScheme.Board);
-
-            var tra = new I2cConnectionSettings(2, DeviceAddress);
-            var con = I2cDevice.Create(tra);
+            Guard.ObjectNotNull(() => ledMatrix);
+            LedMatrix = ledMatrix;
         }
     }
 }
