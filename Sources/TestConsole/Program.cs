@@ -8,9 +8,9 @@ using Mmu.Mlh.ServiceProvisioning.Areas.Initialization.Services;
 
 namespace Mmu.Mlh.RaspberryPi.TestConsole
 {
-    internal class Program
+    public static class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             var config = ContainerConfiguration.CreateFromAssembly(typeof(Program).Assembly);
             var container = ContainerInitializationService.CreateInitializedContainer(config);
