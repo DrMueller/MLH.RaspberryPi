@@ -11,8 +11,9 @@ namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models.LedMatrixs
         public RedGreenBlue(short red, short green, short blue)
         {
             Guard.That(() => red >= 0 && red <= 255, "Red has to be between 0 and 255.");
-            Guard.That(() => green >= 0 && green <= 255, "Red has to be between 0 and 255.");
-            Guard.That(() => blue >= 0 && blue <= 255, "Red has to be between 0 and 255.");
+            Guard.That(() => green >= 0 && green <= 255, "Green has to be between 0 and 255.");
+            Guard.That(() => blue >= 0 && blue <= 255, "Blue has to be between 0 and 255.");
+
             _red = red;
             _green = green;
             _blue = blue;
