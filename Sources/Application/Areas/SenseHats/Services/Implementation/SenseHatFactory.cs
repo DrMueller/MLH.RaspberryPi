@@ -18,7 +18,7 @@ namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Services.Implementation
             _devicePythonFileFactory = devicePythonFileFactory;
         }
 
-        public SenseHat Create(string basePath)
+        public SenseHat Create()
         {
             _devicePythonFileFactory.AssureInitialized();
 
