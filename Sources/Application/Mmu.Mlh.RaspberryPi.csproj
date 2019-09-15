@@ -28,18 +28,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Areas\SenseHats\Models\Joystick.py" />
+    <None Remove="Areas\SenseHats\Models\LedMatrix.py" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Areas\SenseHats\Models\Joystick.py" />
+    <EmbeddedResource Include="Areas\SenseHats\Models\LedMatrix.py">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Mmu.Mlh.LanguageExtensions" Version="2.1.23" />
     <PackageReference Include="structuremap" Version="4.7.1" />
+    <PackageReference Include="System.IO.Abstractions" Version="6.0.32" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Infrastructure\Assets\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Areas\SenseHats\Models\LedMatrix.py">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

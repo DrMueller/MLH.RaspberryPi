@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models;
 using Mmu.Mlh.RaspberryPi.Areas.SenseHats.Services;
 using Mmu.Mlh.ServiceProvisioning.Areas.Initialization.Models;
 using Mmu.Mlh.ServiceProvisioning.Areas.Initialization.Services;
@@ -20,9 +19,11 @@ namespace Mmu.Mlh.RaspberryPi.TestConsole
 
             Task.WaitAll(Task.Run(async () =>
             {
-                var textColor = RedGreenBlue.CreateBlack();
-                var backgroumd = RedGreenBlue.CreateWhite();
-                await senseHat.LedMatrix.ShowMessage("Hello World!", 1, textColor, backgroumd);
+                ////var textColor = RedGreenBlue.CreateBlack();
+                ////var backgroumd = RedGreenBlue.CreateWhite();
+                ////await senseHat.LedMatrix.ShowMessage("Hello World!", 1, textColor, backgroumd);
+
+                await senseHat.Joystick.Tra();
             }));
 
             Console.ReadKey();

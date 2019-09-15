@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Mmu.Mlh.RaspberryPi.Areas.Common.DeviceAbstractions;
-using Mmu.Mlh.RaspberryPi.Areas.Common.Services;
 using Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Models;
 using Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Services;
 
@@ -8,8 +7,8 @@ namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models
 {
     public class LedMatrix : Device
     {
-        internal LedMatrix(IPythonExecutor executor, IDevicePythonFileLocator locator)
-            : base(executor, locator)
+        internal LedMatrix(IPythonExecutor executor, string scriptFilePath)
+            : base(executor, scriptFilePath)
         {
         }
 

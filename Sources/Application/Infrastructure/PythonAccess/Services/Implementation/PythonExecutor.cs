@@ -1,6 +1,9 @@
 ﻿using System.Diagnostics;
+using System.IO.Abstractions;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mmu.Mlh.LanguageExtensions.Areas.Invariance;
 using Mmu.Mlh.LanguageExtensions.Areas.Types.Maybes;
 using Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Models;
 
@@ -8,14 +11,22 @@ namespace Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Services.Implementatio
 {
     internal class PythonExecutor : IPythonExecutor
     {
+        private readonly IFileSystem _fileSystem;
+
+        public PythonExecutor(IFileSystem fileSystem)
+        {
+            _fileSystem = fileSystem;
+        }
+
         public async Task<PythonExecutionResult> ExecuteAsnc(PythonExecutionRequest request)
         {
             var pythonFilePath = FindPythonExeFilePath();
+            var args = CreateArgumentsString(request);
 
             var start = new ProcessStartInfo
             {
                 FileName = pythonFilePath,
-                Arguments = CreateArgumentsString(request),
+                Arguments = args,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
@@ -57,11 +68,19 @@ namespace Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Services.Implementatio
             return result;
         }
 
-        private static string FindPythonExeFilePath()
+        private string FindPythonExeFilePath()
         {
-            // return @"C:\Users\mlm\AppData\Local\Programs\Python\Python37-32\python.exe";
-            // return @"C:\WINDOWS\py.exe";
-            return "/usr/bin/python";
+            var possibleFilePaths = new string[]
+            {
+                @"C:\Users\mlm\AppData\Local\Programs\Python\Python37-32\python.exe",
+                @"C:\WINDOWS\py.exe",
+                "/usr/bin/python"
+            };
+
+            var existingPythonPath = possibleFilePaths.FirstOrDefault(fp => _fileSystem.File.Exists(fp));
+            Guard.That(() => existingPythonPath != null, "No python path found.");
+
+            return existingPythonPath;
         }
     }
 }

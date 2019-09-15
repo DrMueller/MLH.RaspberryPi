@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Mmu.Mlh.RaspberryPi.Areas.Common.Services;
 using Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Exceptions;
 using Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Models;
 using Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Services;
@@ -10,19 +9,19 @@ namespace Mmu.Mlh.RaspberryPi.Areas.Common.DeviceAbstractions
     public abstract class Device
     {
         private readonly IPythonExecutor _executor;
-        private readonly string _filePath;
+        private readonly string _scriptFilePath;
 
         internal Device(
             IPythonExecutor executor,
-            IDevicePythonFileLocator locator)
+            string scriptFilePath)
         {
             _executor = executor;
-            _filePath = locator.LocatePythonFilePath(GetType());
+            _scriptFilePath = scriptFilePath;
         }
 
         internal async Task ExecuteAsync(string methodName, params PythonArgument[] arguments)
         {
-            var req = new PythonExecutionRequest(_filePath, methodName, arguments);
+            var req = new PythonExecutionRequest(_scriptFilePath, methodName, arguments);
             var res = await _executor.ExecuteAsnc(req);
 
             res.ErrorMessage.Evaluate(
