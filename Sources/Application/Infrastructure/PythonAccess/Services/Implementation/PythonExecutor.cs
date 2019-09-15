@@ -1,38 +1,25 @@
 ﻿using System.Diagnostics;
-using System.IO.Abstractions;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Mmu.Mlh.LanguageExtensions.Areas.Invariance;
 using Mmu.Mlh.LanguageExtensions.Areas.Types.Maybes;
 using Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Models;
+using Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Services.Servants;
 
 namespace Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Services.Implementation
 {
     internal class PythonExecutor : IPythonExecutor
     {
-        private readonly IFileSystem _fileSystem;
+        private readonly IProcessStartInfoFactory _startInfoFactory;
 
-        public PythonExecutor(IFileSystem fileSystem)
+        public PythonExecutor(IProcessStartInfoFactory startInfoFactory)
         {
-            _fileSystem = fileSystem;
+            _startInfoFactory = startInfoFactory;
         }
 
         public async Task<PythonExecutionResult> ExecuteAsnc(PythonExecutionRequest request)
         {
-            var pythonFilePath = FindPythonExeFilePath();
-            var args = CreateArgumentsString(request);
+            var startInfo = _startInfoFactory.CreateForExecution(request);
 
-            var start = new ProcessStartInfo
-            {
-                FileName = pythonFilePath,
-                Arguments = args,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true
-            };
-
-            using (var process = Process.Start(start))
+            using (var process = Process.Start(startInfo))
             {
                 var errorString = await process.StandardError.ReadToEndAsync();
                 string resultString = null;
@@ -49,38 +36,29 @@ namespace Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Services.Implementatio
             }
         }
 
-        private static string CreateArgumentsString(PythonExecutionRequest request)
+        public void Listen(PythonListeningRequest request)
         {
-            var sb = new StringBuilder();
-            sb.Append(request.FilePath);
-            sb.Append(" ");
+            var startInfo = _startInfoFactory.CreateForListening(request);
 
-            sb.Append(request.MethodName);
-            sb.Append(" ");
-
-            foreach (var arg in request.Arguments)
+            var process = Process.Start(startInfo);
+            process.BeginErrorReadLine();
+            process.BeginOutputReadLine();
+            process.EnableRaisingEvents = true;
+            process.OutputDataReceived += (object sender, DataReceivedEventArgs e) =>
             {
-                sb.Append(arg.AsString());
-                sb.Append(" ");
-            }
-
-            var result = sb.ToString();
-            return result;
-        }
-
-        private string FindPythonExeFilePath()
-        {
-            var possibleFilePaths = new string[]
-            {
-                @"C:\Users\mlm\AppData\Local\Programs\Python\Python37-32\python.exe",
-                @"C:\WINDOWS\py.exe",
-                "/usr/bin/python"
+                if (!string.IsNullOrEmpty(e.Data))
+                {
+                    request.DataReceived(e.Data);
+                }
             };
 
-            var existingPythonPath = possibleFilePaths.FirstOrDefault(fp => _fileSystem.File.Exists(fp));
-            Guard.That(() => existingPythonPath != null, "No python path found.");
-
-            return existingPythonPath;
+            process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) =>
+            {
+                if (!string.IsNullOrEmpty(e.Data))
+                {
+                    request.ErrorReceivedMaybe.Evaluate(action => action(e.Data));
+                }
+            };
         }
     }
 }

@@ -23,9 +23,14 @@ namespace Mmu.Mlh.RaspberryPi.TestConsole
                 ////var backgroumd = RedGreenBlue.CreateWhite();
                 ////await senseHat.LedMatrix.ShowMessage("Hello World!", 1, textColor, backgroumd);
 
-                await senseHat.Joystick.SayHello();
+                senseHat.Joystick.Listen(ev =>
+                {
+                    Console.WriteLine(ev.Action);
+                    Console.WriteLine(ev.Direction);
+                });
             }));
 
+            Console.WriteLine("Tra");
             Console.ReadKey();
         }
 

@@ -19,7 +19,7 @@ namespace Mmu.Mlh.RaspberryPi.Areas.Common.DeviceAbstractions
             _scriptFilePath = scriptFilePath;
         }
 
-        internal async Task ExecuteAsync(string methodName, params PythonArgument[] arguments)
+        internal async Task<PythonExecutionResult> ExecuteAsync(string methodName, params PythonArgument[] arguments)
         {
             var req = new PythonExecutionRequest(_scriptFilePath, methodName, arguments);
             var res = await _executor.ExecuteAsnc(req);
@@ -29,6 +29,8 @@ namespace Mmu.Mlh.RaspberryPi.Areas.Common.DeviceAbstractions
                 {
                     throw new PythonException(str);
                 });
+
+            return res;
         }
     }
 }

@@ -6,5 +6,7 @@ namespace Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Services
     internal interface IPythonExecutor
     {
         Task<PythonExecutionResult> ExecuteAsnc(PythonExecutionRequest request);
+
+        void Listen(PythonListeningRequest request);
     }
 }

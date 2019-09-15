@@ -1,4 +1,6 @@
 ﻿using Mmu.Mlh.LanguageExtensions.Areas.Invariance;
+using Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models.Joysticks;
+using Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models.LedMatrixs;
 
 namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models
 {

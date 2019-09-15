@@ -1,6 +1,6 @@
 ﻿using Mmu.Mlh.LanguageExtensions.Areas.Invariance;
 
-namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models
+namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models.LedMatrixs
 {
     public class RedGreenBlue
     {

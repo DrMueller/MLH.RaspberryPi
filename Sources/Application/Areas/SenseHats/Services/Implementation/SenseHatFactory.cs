@@ -1,5 +1,7 @@
 ﻿using Mmu.Mlh.RaspberryPi.Areas.Common.Services;
 using Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models;
+using Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models.Joysticks;
+using Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models.LedMatrixs;
 using Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Services;
 
 namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Services.Implementation

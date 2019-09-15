@@ -3,7 +3,7 @@ using Mmu.Mlh.LanguageExtensions.Areas.Types.Maybes;
 
 namespace Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Models
 {
-    public class PythonExecutionResult
+    internal class PythonExecutionResult
     {
         public Maybe<string> ErrorMessage { get; }
         public Maybe<string> Result { get; }
