@@ -30,6 +30,7 @@
   <ItemGroup>
     <None Remove="Areas\SenseHats\Models\Joystick.py" />
     <None Remove="Areas\SenseHats\Models\LedMatrix.py" />
+    <None Remove="Areas\SenseHats\Models\Temparatures\TemparatureSensor.py" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +38,7 @@
     <EmbeddedResource Include="Areas\SenseHats\Models\LedMatrixs\LedMatrix.py">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Areas\SenseHats\Models\Temparatures\TemparatureSensor.py" />
   </ItemGroup>
 
   <ItemGroup>

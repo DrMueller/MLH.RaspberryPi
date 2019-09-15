@@ -1,5 +1,4 @@
-﻿namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models.LedMatrixs
-import sys
+﻿import sys
 from sense_hat import SenseHat
 import ast
 
@@ -18,3 +17,4 @@ if __name__ == '__main__':
   methodName = args.pop(0) # Pop method name
 
   globals()[methodName](args)
+}
