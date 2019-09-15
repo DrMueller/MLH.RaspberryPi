@@ -12,28 +12,44 @@ namespace Mmu.Mlh.RaspberryPi.Areas.Common.Services.Implementation
     {
         private static readonly Assembly _thisAssembly = typeof(DevicePythonFileFactory).Assembly;
         private readonly IFileSystem _fileSystem;
-        private readonly List<string> _resources;
+        private readonly object _lock = new object();
+        private List<IFileInfo> _files = new List<IFileInfo>();
+        private bool _initialized = false;
+        private List<string> _resources;
 
         public DevicePythonFileFactory(IFileSystem fileSystem)
         {
-            _resources = _thisAssembly
-                .GetManifestResourceNames()
-                .Where(f => f.ToUpperInvariant()
-                .EndsWith(".py", StringComparison.OrdinalIgnoreCase)).ToList();
-
             _fileSystem = fileSystem;
+        }
+
+        public void AssureInitialized()
+        {
+            if (!_initialized)
+            {
+                lock (_lock)
+                {
+                    if (!_initialized)
+                    {
+                        InitializeResources();
+                        RecreateScriptFiles();
+                        _initialized = true;
+                    }
+                }
+            }
         }
 
         public string CreateScriptFile(Type deviceType)
         {
-            var tempPath = _fileSystem.Path.GetTempPath();
             var pythonFileName = $"{deviceType.FullName}.py";
-            var filePath = _fileSystem.Path.Combine(tempPath, pythonFileName);
+            return _files.Single(f => f.Name == pythonFileName).FullName;
+        }
 
-            var script = ReadPythonResourceScript(pythonFileName);
-            _fileSystem.File.WriteAllText(filePath, script);
-
-            return filePath;
+        private void InitializeResources()
+        {
+            _resources = _thisAssembly
+                            .GetManifestResourceNames()
+                            .Where(f => f.ToUpperInvariant()
+                            .EndsWith(".py", StringComparison.OrdinalIgnoreCase)).ToList();
         }
 
         private string ReadPythonResourceScript(string pythonFileName)
@@ -46,6 +62,25 @@ namespace Mmu.Mlh.RaspberryPi.Areas.Common.Services.Implementation
             {
                 return reader.ReadToEnd();
             }
+        }
+
+        private void RecreateScriptFiles()
+        {
+            _files = _resources.Select(resource =>
+            {
+                var tempPath = _fileSystem.Path.GetTempPath();
+                var filePath = _fileSystem.Path.Combine(tempPath, resource);
+
+                if (_fileSystem.File.Exists(filePath))
+                {
+                    _fileSystem.File.Delete(filePath);
+                }
+
+                var script = ReadPythonResourceScript(resource);
+                _fileSystem.File.WriteAllText(filePath, script);
+
+                return _fileSystem.FileInfo.FromFileName(filePath);
+            }).ToList();
         }
     }
 }

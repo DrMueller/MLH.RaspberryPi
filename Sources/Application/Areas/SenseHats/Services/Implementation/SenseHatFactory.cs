@@ -17,6 +17,8 @@ namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Services.Implementation
 
         public SenseHat Create(string basePath)
         {
+            _devicePythonFileFactory.AssureInitialized();
+
             var ledMatrixScriptPath = _devicePythonFileFactory.CreateScriptFile(typeof(LedMatrix));
             var led = new LedMatrix(_pythonExecutor, ledMatrixScriptPath);
 

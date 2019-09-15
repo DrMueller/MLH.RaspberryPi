@@ -10,7 +10,7 @@ namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models
         {
         }
 
-        public async Task Tra()
+        public async Task SayHello()
         {
             await ExecuteAsync("sayHello");
         }
