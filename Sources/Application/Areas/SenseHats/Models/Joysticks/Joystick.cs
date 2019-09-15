@@ -20,7 +20,12 @@ namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models.Joysticks
 
         public void Listen(Action<JoystickEvent> eventReceived)
         {
-            var req = new PythonListeningRequest(_scriptFilePath, "getEvents", InputReceived, Maybe.CreateNone<Action<string>>());
+            var req = new PythonListeningRequest(
+                _scriptFilePath,
+                "getEvents",
+                str => InputReceived(str, eventReceived),
+                Maybe.CreateNone<Action<string>>());
+
             _executor.Listen(req);
         }
 
@@ -30,12 +35,60 @@ namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models.Joysticks
             execResult.Result.Evaluate(res => Console.WriteLine(res));
         }
 
-        private void InputReceived(string str)
+        private static void InputReceived(string str, Action<JoystickEvent> callback)
         {
             Console.WriteLine(str);
-            //var splitted = str.Split(':');
-            //var act = splitted[0];
-            //var dir = splitted[1];
+            var splitted = str.Split(':');
+            var act = splitted[0];
+            var dir = splitted[1];
+
+            var action = ParseAction(act);
+            var direction = ParseDirection(dir);
+
+            var joystickEvent = new JoystickEvent(action, direction);
+            callback(joystickEvent);
+        }
+
+        private static JoystickAction ParseAction(string str)
+        {
+            switch (str.ToUpperInvariant())
+            {
+                case "PRESSED":
+                    return JoystickAction.Pressed;
+
+                case "RELEASED":
+                    return JoystickAction.Released;
+
+                case "HELD":
+                    return JoystickAction.Held;
+
+                default:
+                    throw new ArgumentException($"Joystick Action {str} not found.");
+            }
+        }
+
+        private static JoystickDirection ParseDirection(string str)
+        {
+            switch (str.ToUpperInvariant())
+            {
+                case "UP":
+                    return JoystickDirection.Up;
+
+                case "DOWN":
+                    return JoystickDirection.Down;
+
+                case "LEFT":
+                    return JoystickDirection.Left;
+
+                case "RIGHT":
+                    return JoystickDirection.Right;
+
+                case "MIDDLE":
+                    return JoystickDirection.Middle;
+
+                default:
+                    throw new ArgumentException($"Joystick Direction {str} not found.");
+            }
         }
     }
 }
