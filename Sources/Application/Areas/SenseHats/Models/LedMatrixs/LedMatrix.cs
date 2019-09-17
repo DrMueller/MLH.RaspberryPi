@@ -15,11 +15,11 @@ namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models.LedMatrixs
         public async Task ShowMessage(
             string message,
             float scrollSpeed = 0.1f,
-            RedGreenBlue textColor = null,
-            RedGreenBlue backgroundColor = null)
+            RgbColor textColor = null,
+            RgbColor backgroundColor = null)
         {
-            textColor = textColor ?? RedGreenBlue.CreateWhite();
-            backgroundColor = backgroundColor ?? RedGreenBlue.CreateBlack();
+            textColor = textColor ?? RgbColor.CreateWhite();
+            backgroundColor = backgroundColor ?? RgbColor.CreateBlack();
 
             await ExecuteAsync(
                 "showMessage",
@@ -27,6 +27,14 @@ namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models.LedMatrixs
                 new PythonArgument(scrollSpeed),
                 new PythonArgument(textColor.AsString()),
                 new PythonArgument(backgroundColor.AsString()));
+        }
+
+        public async Task ShowPixels(LedPixelConfiguration pixelConfig)
+        {
+            var pixelStr = pixelConfig.AsString();
+            await ExecuteAsync(
+                "showPixels",
+                new PythonArgument(pixelStr, true));
         }
     }
 }

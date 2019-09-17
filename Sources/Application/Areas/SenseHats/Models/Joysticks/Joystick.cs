@@ -22,7 +22,7 @@ namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models.Joysticks
         {
             var req = new PythonListeningRequest(
                 _scriptFilePath,
-                "getEvents",
+                "listen",
                 str => InputReceived(str, eventReceived),
                 Maybe.CreateNone<Action<string>>());
 

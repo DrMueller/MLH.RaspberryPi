@@ -1,14 +1,15 @@
-﻿using Mmu.Mlh.LanguageExtensions.Areas.Invariance;
+﻿using System;
+using Mmu.Mlh.LanguageExtensions.Areas.Invariance;
 
 namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models.LedMatrixs
 {
-    public class RedGreenBlue
+    public class RgbColor
     {
         private readonly short _blue;
         private readonly short _green;
         private readonly short _red;
 
-        public RedGreenBlue(short red, short green, short blue)
+        public RgbColor(short red, short green, short blue)
         {
             Guard.That(() => red >= 0 && red <= 255, "Red has to be between 0 and 255.");
             Guard.That(() => green >= 0 && green <= 255, "Green has to be between 0 and 255.");
@@ -19,14 +20,23 @@ namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models.LedMatrixs
             _blue = blue;
         }
 
-        public static RedGreenBlue CreateBlack()
+        public static RgbColor CreateBlack()
         {
-            return new RedGreenBlue(0, 0, 0);
+            return new RgbColor(0, 0, 0);
         }
 
-        public static RedGreenBlue CreateWhite()
+        public static RgbColor CreateRandom()
         {
-            return new RedGreenBlue(255, 255, 255);
+            var rnd = new Random();
+            return new RgbColor(
+                (short)rnd.Next(0, 255),
+                (short)rnd.Next(0, 255),
+                (short)rnd.Next(0, 255));
+        }
+
+        public static RgbColor CreateWhite()
+        {
+            return new RgbColor(255, 255, 255);
         }
 
         internal string AsString()

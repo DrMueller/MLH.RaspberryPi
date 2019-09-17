@@ -6,6 +6,9 @@ namespace Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Models
 {
     internal sealed class PythonListeningRequest : PythonRequest
     {
+        public Action<string> DataReceived { get; }
+        public Maybe<Action<string>> ErrorReceivedMaybe { get; }
+
         public PythonListeningRequest(
             string filePath,
             string methodName,
@@ -20,8 +23,5 @@ namespace Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Models
             DataReceived = dataReceived;
             ErrorReceivedMaybe = errorReceivedMaybe;
         }
-
-        public Action<string> DataReceived { get; }
-        public Maybe<Action<string>> ErrorReceivedMaybe { get; }
     }
 }

@@ -6,14 +6,13 @@ using Mmu.Mlh.RaspberryPi.Areas.SenseHats.Services;
 
 namespace Mmu.Mlh.RaspberryPi.TestConsole.Areas.Commands
 {
-    public class WriteMessage : IConsoleCommand
+    public class WriteAllPixels : IConsoleCommand
     {
         private readonly ISenseHatFactory _senseHatFactory;
+        public string Description => "Write all Pixels";
+        public ConsoleKey Key => ConsoleKey.F5;
 
-        public string Description => "Write message to LED";
-        public ConsoleKey Key => ConsoleKey.F1;
-
-        public WriteMessage(ISenseHatFactory senseHatFactory)
+        public WriteAllPixels(ISenseHatFactory senseHatFactory)
         {
             _senseHatFactory = senseHatFactory;
         }
@@ -21,10 +20,12 @@ namespace Mmu.Mlh.RaspberryPi.TestConsole.Areas.Commands
         public async Task ExecuteAsync()
         {
             var senseHat = _senseHatFactory.Create();
-            var foregroundPink = new RgbColor(255, 0, 255);
-            var backgroundDarkGreen = new RgbColor(0, 128, 64);
+            var rndColor = RgbColor.CreateRandom();
 
-            await senseHat.LedMatrix.ShowMessage("Hello World", 0.3f, foregroundPink, backgroundDarkGreen);
+            var config = new LedPixelConfiguration();
+            config.SetAllColors(rndColor);
+
+            await senseHat.LedMatrix.ShowPixels(config);
         }
     }
 }
