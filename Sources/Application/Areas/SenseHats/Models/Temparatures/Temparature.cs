@@ -14,7 +14,7 @@ namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models.Temparatures
         public string AsDescription()
         {
             var roundedValue = Math.Round(Value, 1);
-            return $"{roundedValue} °C";
+            return $"{roundedValue} C";
         }
 
         internal static Temparature Parse(string str)
