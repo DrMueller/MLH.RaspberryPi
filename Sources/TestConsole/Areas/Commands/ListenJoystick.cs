@@ -8,9 +8,8 @@ namespace Mmu.Mlh.RaspberryPi.TestConsole.Areas.Commands
 {
     public class ListenJoystick : IConsoleCommand
     {
-        private readonly ISenseHatFactory _senseHatFactory;
         private readonly IConsoleWriter _consoleWriter;
-
+        private readonly ISenseHatFactory _senseHatFactory;
         public string Description => "Listen for Joystick";
         public ConsoleKey Key => ConsoleKey.F2;
 
@@ -26,8 +25,8 @@ namespace Mmu.Mlh.RaspberryPi.TestConsole.Areas.Commands
 
             senseHat.Joystick.Listen(ev =>
             {
-                _consoleWriter.WriteLine(ev.Action.ToString(), foregroundColor: ConsoleColor.Green);
-                _consoleWriter.WriteLine(ev.Direction.ToString(), foregroundColor: ConsoleColor.Green);
+                _consoleWriter.WriteLine("Joystick-Action: " + ev.Action, foregroundColor: ConsoleColor.Green);
+                _consoleWriter.WriteLine("Joystick-Direction: " + ev.Direction, foregroundColor: ConsoleColor.Green);
             });
 
             return Task.CompletedTask;

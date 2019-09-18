@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Exceptions;
 using Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Models;
 using Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Services;
@@ -31,6 +32,18 @@ namespace Mmu.Mlh.RaspberryPi.Areas.Common.DeviceAbstractions
                 });
 
             return res;
+        }
+
+        internal void Listen(string methodName, Action<string> callback, params PythonArgument[] arguments)
+        {
+            var req = new PythonListeningRequest(
+                _scriptFilePath,
+                methodName,
+                callback,
+                err => throw new PythonException(err),
+                arguments);
+
+            _executor.Listen(req);
         }
     }
 }

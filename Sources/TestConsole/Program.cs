@@ -8,9 +8,12 @@ namespace Mmu.Mlh.RaspberryPi.TestConsole
     {
         public static void Main()
         {
-            var containerConfig = ContainerConfiguration.CreateFromAssembly(typeof(Program).Assembly, logInitialization: true);
-            var container = ContainerInitializationService.CreateInitializedContainer(containerConfig);
-            container
+            var containerConfig = ContainerConfiguration.CreateFromAssembly(
+                typeof(Program).Assembly,
+                logInitialization: true);
+
+            ContainerInitializationService
+                .CreateInitializedContainer(containerConfig)
                 .GetInstance<IConsoleCommandsStartupService>()
                 .Start();
         }

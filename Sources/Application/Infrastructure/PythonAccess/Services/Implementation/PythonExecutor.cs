@@ -56,7 +56,7 @@ namespace Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Services.Implementatio
             {
                 if (!string.IsNullOrEmpty(e.Data))
                 {
-                    request.ErrorReceivedMaybe.Evaluate(action => action(e.Data));
+                    request.ErrorReceived(e.Data);
                 }
             };
         }

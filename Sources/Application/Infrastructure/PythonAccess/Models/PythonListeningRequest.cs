@@ -1,27 +1,26 @@
 ﻿using System;
 using Mmu.Mlh.LanguageExtensions.Areas.Invariance;
-using Mmu.Mlh.LanguageExtensions.Areas.Types.Maybes;
 
 namespace Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Models
 {
     internal sealed class PythonListeningRequest : PythonRequest
     {
         public Action<string> DataReceived { get; }
-        public Maybe<Action<string>> ErrorReceivedMaybe { get; }
+        public Action<string> ErrorReceived { get; }
 
         public PythonListeningRequest(
             string filePath,
             string methodName,
             Action<string> dataReceived,
-            Maybe<Action<string>> errorReceivedMaybe,
+            Action<string> errorReceived,
             params PythonArgument[] arguments)
             : base(filePath, methodName, arguments)
         {
             Guard.ObjectNotNull(() => dataReceived);
-            Guard.ObjectNotNull(() => errorReceivedMaybe);
+            Guard.ObjectNotNull(() => errorReceived);
 
             DataReceived = dataReceived;
-            ErrorReceivedMaybe = errorReceivedMaybe;
+            ErrorReceived = errorReceived;
         }
     }
 }

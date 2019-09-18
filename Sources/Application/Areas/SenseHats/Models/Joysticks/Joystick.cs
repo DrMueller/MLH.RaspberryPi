@@ -20,24 +20,11 @@ namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models.Joysticks
 
         public void Listen(Action<JoystickEvent> eventReceived)
         {
-            var req = new PythonListeningRequest(
-                _scriptFilePath,
-                "listen",
-                str => InputReceived(str, eventReceived),
-                Maybe.CreateNone<Action<string>>());
-
-            _executor.Listen(req);
+            Listen("listen", str => JoystickInputReceived(str, eventReceived));
         }
 
-        public async Task SayHello()
+        private static void JoystickInputReceived(string str, Action<JoystickEvent> callback)
         {
-            var execResult = await ExecuteAsync("sayHello");
-            execResult.Result.Evaluate(res => Console.WriteLine(res));
-        }
-
-        private static void InputReceived(string str, Action<JoystickEvent> callback)
-        {
-            Console.WriteLine(str);
             var splitted = str.Split(':');
             var act = splitted[0];
             var dir = splitted[1];
