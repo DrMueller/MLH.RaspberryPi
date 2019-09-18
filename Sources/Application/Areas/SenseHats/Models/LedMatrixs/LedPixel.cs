@@ -14,7 +14,7 @@
             _color = color;
         }
 
-        public string AsString()
+        internal string AsString()
         {
             return _color.AsString();
         }

@@ -6,7 +6,7 @@
         public LedPixel Pixel { get; }
         public int Row { get; }
 
-        public LedPixelWithPosition(int row, int column, LedPixel pixel)
+        internal LedPixelWithPosition(int row, int column, LedPixel pixel)
         {
             Row = row;
             Column = column;

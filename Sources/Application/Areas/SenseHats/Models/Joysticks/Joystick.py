@@ -3,30 +3,17 @@ try:
     import queue
 except ImportError:
     import Queue as queue
-import threading
-import requests
 
 from sense_hat import SenseHat
 sense = SenseHat()
 
-# Taken from https://stackoverflow.com/questions/48429653/python-returning-values-from-infinite-loop-thread
 
-
-def _listen(queue):
+def listen(params):
     while True:
         event = sense.stick.wait_for_event(emptybuffer=True)
         val = event.action + ":" + event.direction
-        queue.put(val)
-
-
-def listen(params):
-    q = queue.Queue()
-    t1 = threading.Thread(target=_listen, name=_listen, args=(q,))
-    t1.start()
-
-    while True:
-        value = q.get()
-        print(value)
+        sys.stdout.write(val)
+        sys.stdout.flush()
 
 
 if __name__ == '__main__':
