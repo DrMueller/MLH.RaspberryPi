@@ -10,7 +10,7 @@ namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models.LedMatrixs
     {
         private readonly List<LedPixelWithPosition> _pixelsWithPositions;
 
-        public LedPixelConfiguration()
+        internal LedPixelConfiguration()
         {
             _pixelsWithPositions = new List<LedPixelWithPosition>();
 

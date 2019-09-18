@@ -8,13 +8,17 @@ namespace Mmu.Mlh.RaspberryPi.TestConsole.Areas.Commands
 {
     public class WritePixels : IConsoleCommand
     {
+        private readonly ILedPixelConfigurationFactory _ledPixelConfigFactory;
         private readonly ISenseHatFactory _senseHatFactory;
         public string Description => "Write Pixels";
         public ConsoleKey Key => ConsoleKey.F4;
 
-        public WritePixels(ISenseHatFactory senseHatFactory)
+        public WritePixels(
+            ISenseHatFactory senseHatFactory,
+            ILedPixelConfigurationFactory ledPixelConfigFactory)
         {
             _senseHatFactory = senseHatFactory;
+            _ledPixelConfigFactory = ledPixelConfigFactory;
         }
 
         public async Task ExecuteAsync()
@@ -22,13 +26,13 @@ namespace Mmu.Mlh.RaspberryPi.TestConsole.Areas.Commands
             var senseHat = _senseHatFactory.Create();
             var rndColor = RgbColor.CreateRandom();
 
-            var cnfconfig = new LedPixelConfiguration();
-            cnfconfig.ForPosition(1, 1).SetColor(rndColor);
-            cnfconfig.ForPosition(1, 8).SetColor(rndColor);
-            cnfconfig.ForPosition(8, 1).SetColor(rndColor);
-            cnfconfig.ForPosition(8, 8).SetColor(rndColor);
+            var config = _ledPixelConfigFactory.CreateEmpty();
+            config.ForPosition(1, 1).SetColor(rndColor);
+            config.ForPosition(1, 8).SetColor(rndColor);
+            config.ForPosition(8, 1).SetColor(rndColor);
+            config.ForPosition(8, 8).SetColor(rndColor);
 
-            await senseHat.LedMatrix.ShowPixels(cnfconfig);
+            await senseHat.LedMatrix.ShowPixels(config);
         }
     }
 }

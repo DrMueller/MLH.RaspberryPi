@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Mmu.Mlh.LanguageExtensions.Areas.Types.Maybes;
 using Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Models;
@@ -46,6 +47,7 @@ namespace Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Services.Implementatio
             process.EnableRaisingEvents = true;
             process.OutputDataReceived += (object sender, DataReceivedEventArgs e) =>
             {
+                Console.WriteLine("Data: " + e.Data);
                 if (!string.IsNullOrEmpty(e.Data))
                 {
                     request.DataReceived(e.Data);
@@ -54,6 +56,7 @@ namespace Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Services.Implementatio
 
             process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) =>
             {
+                Console.WriteLine("Error: " + e.Data);
                 if (!string.IsNullOrEmpty(e.Data))
                 {
                     request.ErrorReceived(e.Data);

@@ -1,21 +1,13 @@
 ﻿using System;
-using System.Threading.Tasks;
-using Mmu.Mlh.LanguageExtensions.Areas.Types.Maybes;
 using Mmu.Mlh.RaspberryPi.Areas.Common.DeviceAbstractions;
-using Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Models;
 using Mmu.Mlh.RaspberryPi.Infrastructure.PythonAccess.Services;
 
 namespace Mmu.Mlh.RaspberryPi.Areas.SenseHats.Models.Joysticks
 {
     public class Joystick : Device
     {
-        private readonly IPythonExecutor _executor;
-        private readonly string _scriptFilePath;
-
         internal Joystick(IPythonExecutor executor, string scriptFilePath) : base(executor, scriptFilePath)
         {
-            _executor = executor;
-            _scriptFilePath = scriptFilePath;
         }
 
         public void Listen(Action<JoystickEvent> eventReceived)

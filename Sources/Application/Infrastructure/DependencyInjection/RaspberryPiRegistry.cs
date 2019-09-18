@@ -15,10 +15,13 @@ namespace Mmu.Mlh.RaspberryPi.Infrastructure.DependencyInjection
     {
         public RaspberryPiRegistry()
         {
+            For<IFileSystem>().Use<FileSystem>().Singleton();
+
             For<ISenseHatFactory>().Use<SenseHatFactory>().Singleton();
+            For<ILedPixelConfigurationFactory>().Use<LedPixelConfigurationFactory>().Singleton();
+
             For<IPythonExecutor>().Use<PythonExecutor>().Singleton();
             For<IDevicePythonFileFactory>().Use<DevicePythonFileFactory>().Singleton();
-            For<IFileSystem>().Use<FileSystem>().Singleton();
             For<IProcessStartInfoFactory>().Use<ProcessStartInfoFactory>().Singleton();
         }
     }

@@ -24,7 +24,7 @@ namespace Mmu.Mlh.RaspberryPi.TestConsole.Areas.Commands
             var foregroundPink = new RgbColor(255, 0, 255);
             var backgroundDarkGreen = new RgbColor(0, 128, 64);
 
-            await senseHat.LedMatrix.ShowMessage("Hello World", 0.3f, foregroundPink, backgroundDarkGreen);
+            await senseHat.LedMatrix.ShowMessage("Hello World", 2f, foregroundPink, backgroundDarkGreen);
         }
     }
 }
